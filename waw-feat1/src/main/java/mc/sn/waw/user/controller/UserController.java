@@ -81,11 +81,11 @@ public class UserController {
 //				session.setAttribute("userVO", userVO);
 //				System.out.println("성공!");
 //				json.put("myPage", "<a class='nav-link' href='#' id='my_page'>"+name+"'s 페이지</a>");
-//				json.put("logoutBtn", "반갑습니다. <kbd>"+name+"</kbd>님<br>오늘도 즐거운 하루 되세요!<br><br><button type='submit' class='btn btn-sm btn-danger' id='logout'>로그아웃</button>");
+//				json.put("logoutBtn", "안녕하세요 <kbd>"+name+"</kbd>님<br><br><br><button type='submit' class='btn btn-sm btn-danger' id='logout'>로그아웃</button>");
 //								
 //			} else {
-//				System.out.println("로그인 실패! 이메일: \"+email+\"\\t비밀번호: \"+pwd+\"\\t이름: \"+name" );
-//				json.put("msg", "다시 시도해주세요");
+//				System.out.println("실패! 이메일: \"+email+\"\\t비밀번호: \"+pwd+\"\\t이름: \"+name" );
+//				json.put("msg", "이메일과 비밀번호를 확인하세요");
 //					
 //			}
 //		} catch (Exception e) {
