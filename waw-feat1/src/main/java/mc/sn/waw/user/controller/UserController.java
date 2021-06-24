@@ -9,11 +9,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import mc.sn.waw.user.service.UserService;
 import mc.sn.waw.user.vo.UserVO;
@@ -32,17 +35,21 @@ public class UserController {
 	private UserService userService;
 
 	@RequestMapping(value = "/registerForm.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public ModelAndView register() throws Exception {	
+	public String register() throws Exception {	
 		
-		return new ModelAndView("user/registerForm");
+		return "/user/registerForm";
 	}
 	
 	
-	@RequestMapping(value = "/register.do", method= {RequestMethod.GET, RequestMethod.POST})
-	public String regist(@RequestBody UserVO userVO) throws Exception {	
+	@RequestMapping(value = "/registerForm", method= RequestMethod.POST)	
+	public ModelAndView Register(UserVO userVO) throws Exception{		
 		
+		ModelAndView mav = new ModelAndView();
+							
 		userService.register(userVO);
-		return "register";
+		mav.setViewName("main");			
+						
+		return mav;
 	}
 //	@RequestMapping(value = "/register.do", produces = "application/text; charset=utf8", method= {RequestMethod.GET, RequestMethod.POST})		
 //	@ResponseBody
@@ -81,11 +88,11 @@ public class UserController {
 //				session.setAttribute("userVO", userVO);
 //				System.out.println("성공!");
 //				json.put("myPage", "<a class='nav-link' href='#' id='my_page'>"+name+"'s 페이지</a>");
-//				json.put("logoutBtn", "안녕하세요 <kbd>"+name+"</kbd>님<br><br><br><button type='submit' class='btn btn-sm btn-danger' id='logout'>로그아웃</button>");
+//				json.put("logoutBtn", "반갑습니다. <kbd>"+name+"</kbd>님<br>오늘도 즐거운 하루 되세요!<br><br><button type='submit' class='btn btn-sm btn-danger' id='logout'>로그아웃</button>");
 //								
 //			} else {
-//				System.out.println("실패! 이메일: \"+email+\"\\t비밀번호: \"+pwd+\"\\t이름: \"+name" );
-//				json.put("msg", "이메일과 비밀번호를 확인하세요");
+//				System.out.println("로그인 실패! 이메일: \"+email+\"\\t비밀번호: \"+pwd+\"\\t이름: \"+name" );
+//				json.put("msg", "다시 시도해주세요");
 //					
 //			}
 //		} catch (Exception e) {
@@ -94,7 +101,35 @@ public class UserController {
 //		return json.toJSONString();
 //	}		
 	
+	@RequestMapping(value = "/loginCheck.do", method = RequestMethod.POST)
+	public ModelAndView login(@ModelAttribute UserVO userVO , HttpSession session) throws Exception{
+		
+		logger.info("post login");
+		
+		boolean result = userService.loginCheck(userVO, session);
+		System.out.println(userService.viewUser(userVO));
+		System.out.println(result);
+		ModelAndView mav = new ModelAndView();
+		if(result == true) {
+			mav.setViewName("home");
+			mav.addObject("msg","success");
+		}else {
+			mav.setViewName("main");
+			mav.addObject("msg", "fail");
+		}
+		
+		return mav;
+	}
 	
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public ModelAndView logout(HttpSession session) throws Exception{
+		
+		userService.logout(session);
+		ModelAndView mav = new ModelAndView();
+		mav.setViewName("main");
+		mav.addObject("msg","logout");
+		return mav;
+	}
 	@RequestMapping (value = "/userFindForm.do", method= {RequestMethod.GET, RequestMethod.POST})
 	public String userFind () {
 		
@@ -149,11 +184,11 @@ public class UserController {
 //	}		
 	
 	
-	@RequestMapping(value = "/logout", method= RequestMethod.POST, produces = "application/text; charset=utf8")			
-	@ResponseBody
-	public String logout(HttpServletRequest req, HttpServletResponse res){
-			HttpSession session=req.getSession(false);
-			session.invalidate();
-			return "";
-	}
+//	@RequestMapping(value = "/logout", method= RequestMethod.POST, produces = "application/text; charset=utf8")			
+//	@ResponseBody
+//	public String logout(HttpServletRequest req, HttpServletResponse res){
+//			HttpSession session=req.getSession(false);
+//			session.invalidate();
+//			return "";
+//	}
 }

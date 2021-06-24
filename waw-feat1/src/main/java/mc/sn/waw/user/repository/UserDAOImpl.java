@@ -1,5 +1,7 @@
 package mc.sn.waw.user.repository;
 
+import javax.servlet.http.HttpSession;
+
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -17,12 +19,26 @@ public class UserDAOImpl implements UserDAO {
 		// TODO Auto-generated method stub
 		sqlSession.insert("mapper.user.register", userVO);
 	}
+	
+	@Override
+	public boolean loginCheck(UserVO userVO) throws Exception {
+		// TODO Auto-generated method stub
+		String name =sqlSession.selectOne("mapper.user.loginCheck", userVO);
+		return (name == null) ? false : true;
+	}
 
 	@Override
-	public String login(UserVO userVO) {
+	public UserVO viewUser(UserVO userVO) throws Exception {
 		// TODO Auto-generated method stub
-		return sqlSession.selectOne("mapper.user.login", userVO);
+		return sqlSession.selectOne("mapper.user.viewUser", userVO);
 	}
+
+	@Override
+	public void logout(HttpSession session) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
+	
 
 	@Override
 	public String userFindEmail(UserVO userVO) {
@@ -35,5 +51,7 @@ public class UserDAOImpl implements UserDAO {
 		// TODO Auto-generated method stub
 		return sqlSession.selectOne("mapper.user.userFindPwd", userVO);
 	}
+
+	
 
 }

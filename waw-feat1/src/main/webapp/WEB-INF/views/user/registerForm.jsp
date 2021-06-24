@@ -11,11 +11,13 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<script src="${contextPath}/resources/jquery/jquery.min.js"></script>
+	<script src="https://code.jquery.com/jquery-2.2.3.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>	
   	<script src="${contextPath}/resources/js/command2.js"></script>
   	<script src="${contextPath}/resources/bootstrap/js/bootstrap.min.js"></script>
+  	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/bootstrap.min.css">  	
+	
 	<meta charset="UTF-8">
-	<link rel="stylesheet" type="text/css" href="${contextPath}/resources/bootstrap/css/bootstrap.min.css">
 	<title>회원가입</title>
 	
 		    
@@ -29,49 +31,50 @@
 				    		<h3 class="panel-title">회원가입</h3>
 				 			</div>
 				 			<div class="panel-body">
-				    		<form method="post">
+				    		<form action= "${contextPath}/user/registerForm" method="post">
 				    		<div class="row">
 			    				<div class="col-md-6">
 				    					<div class="form-group">
-				                <input type="text" name="eamil" id="email"  placeholder="이메일 입력">
+				                <input type="text" name="email" id="email"  placeholder="이메일 입력">
 				    					</div>
 				    				</div>
 				    			</div>
 				    			<div class="row">
 				    				<div class="col-md-6">
 				    					<div class="form-group">
-				                <input type="text" name="userId" id="id" placeholder="아이디 입력">
+				                <input type="text" name="id" id="id" placeholder="아이디 입력">
 				    					</div>
 				    				</div>
 				    			</div>		
-				    			
+				    			<div class="row">
+				    				<div class="col-xs-6 col-sm-6 col-md-6">
+				    					<div class="form-group">
+				    						<input type="password" name="pwd" id="pwd"  placeholder="비밀번호 입력">
+				    					</div>
+				    				</div>			    			
+				    			</div>
+				    			<div class="row">
+				    				<div class="col-xs-6 col-sm-6 col-md-6">
+				    					<div class="form-group">
+				    						<input type="password" name="pwd2" id="pwd2"  placeholder="비밀번호 확인">
+				    					</div>
+				    				</div>			    			
+				    			</div>
+				    				
 				    			<div class="row">
 				    				<div class="col-md-6">
 				    					<div class="form-group">
-				                <input type="text" name="userName" id="name" placeholder="이름 입력">
+				                <input type="text" name="name" id="name" placeholder="이름 입력">
 				    					</div>
 				    				</div>
 				    			</div>
 				    				    	
-			    				<div class="row">
-				    				<div class="col-xs-6 col-sm-6 col-md-6">
-				    					<div class="form-group">
-				    						<input type="password" name="userPwd" id="pwd"  placeholder="비밀번호 입력">
-				    					</div>
-				    				</div>			    			
-				    			</div>
-				    			<div class="row">
-				    				<div class="col-xs-6 col-sm-6 col-md-6">
-				    					<div class="form-group">
-				    						<input type="password" name="userPwd2" id="pwd2"  placeholder="비밀번호 확인">
-				    					</div>
-				    				</div>			    			
-				    			</div>	    	
+			    				    	
 				    					
 	    						<div class="row">
 				    				<div class="col-md-6">
 				    					<div class="form-group">
-				                <input type="text" name="userPhone" id="phoneNumber"  placeholder="전화번호 입력" >
+				                <input type="text" name="phoneNumber" id="phoneNumber"  placeholder="전화번호 입력" >
 				    					</div>
 				    				</div>
 				    			</div>	

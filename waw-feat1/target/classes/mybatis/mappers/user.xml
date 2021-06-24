@@ -10,19 +10,26 @@
 		<result property="pwd" column="pwd" />
 		<result property="name" column="name" />
 		<result property="phoneNumber" column="phoneNumber" />
-		
+		<result property="regDate" column="regDate" />
 	</resultMap>
 		
 	<insert id="register"  parameterType="userVO" >
 		<![CDATA[
-			insert into waw_user(email, id, pwd, name, phoneNumber) 
-			values(#{email},#{id}, #{pwd},#{name},#{phoneNumber})
+			insert into waw_user (email,id,pwd,name,phoneNumber,regDate)
+			values(#{email},#{id},#{pwd},#{name},#{phoneNumber},(now()))
 		]]>
 	</insert>
 	
-	<select id="login" resultType="String" parameterType="userVO">
+	<select id="loginCheck" resultType="String">
 		<![CDATA[
-			select name from waw_user where email=#{email} and pwd=#{pwd}
+			select name from waw_user 
+			where email=#{email} and pwd=#{pwd}
+		]]>
+	</select>
+	<select id="viewUser" resultType="userVO">
+		<![CDATA[
+			select * from waw_user 
+			where email=#{email} and pwd=#{pwd}
 		]]>
 	</select>
 	

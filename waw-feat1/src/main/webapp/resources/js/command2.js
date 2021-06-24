@@ -1,6 +1,6 @@
 $(document).ready(function(){
 			$('#register').click(function(){ //회원 가입 처리
-				alert("클릭회원가입")
+				alert("클릭")
 				var _email = $('#email').val();
 				var _id = $('#id').val();
 				var _name = $('#name').val();
@@ -43,28 +43,31 @@ $(document).ready(function(){
 				alert("전화번호를 입력해주세요.");
 				return;
 				}
-				
-				$.ajax({
-					type:"post",
-					url:"/waw/user",
-					headers: {
-						"Content-Type": "application/json",
-						"X-HTTP-Method-Override": "POST"
-					},
-					dataType: "text",
-					data:Json.stringify(userInfo),
-					success:function(result){
-					consol.log("result:" +result);
-					if(result == "register") {
-						alert("성공")	
-						self.close()
-					}
-					}
+				alert("회원가입 성공")		
+ 				window.open('','_self').close(); 
+
+
+				//.$.ajax({
+					//type:"post",
+					//url:"/waw/user",
+					//headers: {
+						//"Content-Type": "application/json",
+						//"X-HTTP-Method-Override": "POST"
+					//},
+					//dataType: "text",
+					//data:Json.stringify(userInfo),
+					//success:function(result){
+					//consol.log("result:" +result);
+					//if(result == "register") {
+						//alert("성공")	
+						//self.close()
+					//}
+					//}
 					
 				});
 				
 			});
-        })
+       // })
 
 			
 			

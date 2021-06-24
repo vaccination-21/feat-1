@@ -15,9 +15,9 @@ public class UserVO {
 	private String pwd;
 	private String name;
 	private String phoneNumber;
+	private Timestamp regDate;
 	
-		
-	String getEmail() {
+	public String getEmail() {
 		return email;
 	}
 	public void setEmail(String email) {
@@ -47,13 +47,20 @@ public class UserVO {
 	public void setPhoneNumber(String phoneNumber) {
 		this.phoneNumber = phoneNumber;
 	}
-	
+	public Timestamp getRegDate() {
+		return regDate;
+	}
+	public void setRegDate(Timestamp regDate) {
+		this.regDate = regDate;
+	}
 	
 	@Override
 	public String toString() {
 		return "UserVO [email=" + email + ", id=" + id + ", pwd=" + pwd + ", name=" + name + ", phoneNumber="
-				+ phoneNumber + "]";
+				+ phoneNumber + ", regDate=" + regDate + "]";
 	}
+		
+	
 	
 	
 }

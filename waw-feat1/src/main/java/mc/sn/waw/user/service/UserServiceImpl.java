@@ -1,5 +1,7 @@
 package mc.sn.waw.user.service;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,11 +22,28 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public String login(UserVO userVO) throws Exception {
+	public boolean loginCheck(UserVO userVO, HttpSession session) throws Exception {
 		// TODO Auto-generated method stub
-		return userDAO.login(userVO);
+		boolean result =  userDAO.loginCheck(userVO);
+		if (result) {
+			UserVO user = viewUser(userVO);
+			session.setAttribute("email", user.getEmail());
+			session.setAttribute("name", user.getName());
+		}
+		return result;
+	}
+	
+	@Override
+	public UserVO viewUser(UserVO userVO) throws Exception {
+		// TODO Auto-generated method stub
+		return userDAO.viewUser(userVO);
 	}
 
+	@Override
+	public void logout(HttpSession session) throws Exception {
+		// TODO Auto-generated method stub
+		session.invalidate();
+	}
 	@Override
 	public String userFindEmail(UserVO userVO) throws Exception {
 		// TODO Auto-generated method stub
@@ -36,5 +55,7 @@ public class UserServiceImpl implements UserService {
 		// TODO Auto-generated method stub
 		return userDAO.userFindPwd(userVO);
 	}
+
+	
 	
 }
