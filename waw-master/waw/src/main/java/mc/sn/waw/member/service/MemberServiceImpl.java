@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +25,9 @@ public class MemberServiceImpl implements MemberService {
 	@Override
 	public void register(MemberVO memberVO) throws DataAccessException {
 		// TODO Auto-generated method stub
+		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+		String encoded = encoder.encode(memberVO.getPwd()); 
+		memberVO.setPwd(encoded);
 		memberDAO.register(memberVO);
 	}
 
@@ -43,9 +47,8 @@ public class MemberServiceImpl implements MemberService {
 
 	@Override
 	public MemberVO loginMember(LoginVO loginVO) throws DataAccessException {
-		// TODO Auto-generated method stub
-		MemberVO memberVO = memberDAO.loginMember(loginVO);
-		return memberVO;
+		// TODO Auto-generated method stub				 
+		return memberDAO.loginMember(loginVO);
 	}
 
 	@Override

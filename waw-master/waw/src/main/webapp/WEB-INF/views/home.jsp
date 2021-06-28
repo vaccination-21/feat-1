@@ -52,16 +52,19 @@
                     type: "POST",
                     url: "${contextPath}/member/loginCheck",
                     headers: {
-                        "Content-Type": "application/json",
+                        "Content-Type": "application/json; charset=utf8",
                         "X-HTTP-Method-Override": "POST"
                     },
                     dataType: "text",
                     data: JSON.stringify(login),                   
                     success: function(result) {
                         console.log("result:" + result);                                               
-                        if(result == "loginSuccess") {
+                        if (result == "loginSuccess") {
                             alert("로그인성공!");
                             self.location="${contextPath}/chatbot";
+                        } else {
+                        	alert("비밀번호가 틀렸습니다.");
+                        	self.location="${contextPath}/"
                         }
                     }
                 }); //ajax끝

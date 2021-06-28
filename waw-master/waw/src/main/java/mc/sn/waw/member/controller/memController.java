@@ -8,6 +8,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -83,24 +84,33 @@ import mc.sn.waw.member.vo.MemberVO;
 
 	    
 	    //로그인
-	    @PostMapping("/loginCheck")
+	    @PostMapping(value ="/loginCheck", produces = "application/text; charset=utf8")
 	    public String login(@RequestBody LoginVO loginVO, HttpSession session) {
 	        String result = null;
-	       
+	        System.out.println(loginVO);
+	       BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();       
+	        //String encoded =encoder.encode(loginVO.getPwd());
+	        //loginVO.setPwd(encoded);
+	       MemberVO memberVO = memberService.loginMember(loginVO);
+	      
+	        System.out.println("member비밀번호 :"+memberVO.getPwd());
+	        System.out.println("login비밀번호 :"+loginVO.getPwd());
+	        System.out.println("결과 :"+encoder.matches(memberVO.getPwd(),loginVO.getPwd()));
 	        
-	        MemberVO memberVO = memberService.loginMember(loginVO);
-
-	        
-
-	        
-	        if (memberVO != null) {	                          	                    	                   
-                    session.setAttribute("login", memberVO);
+	        if (memberVO != null) {	 
+	        	
+	        	if(encoder.matches(memberVO.getPwd(),loginVO.getPwd())) {
                     
-	                    
+	        		session.setAttribute("login", memberVO);                    	                    
                     result = "loginSuccess";
-	                } else	{                   
+	                } else	{ 
+	                	System.out.println(loginVO.getPwd());
+	                    System.out.println(memberVO.getPwd());
 	                    result ="Fail";
-	    }
+	                }
+	        } else { 
+	        	result ="멤버없음";
+	        }
 	        return result;
 	    }
 
