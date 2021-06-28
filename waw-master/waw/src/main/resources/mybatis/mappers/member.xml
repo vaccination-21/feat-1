@@ -1,0 +1,206 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+      PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+   "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="mapper.member">
+	<resultMap id="memResult" type="memberVO">
+		<result property="tid" column="tid" />
+		<result property="email" column="email" />
+        <result property="pwd" column="pwd" />       
+        <result property="name" column="name" />
+        <result property="nickname" column="nickname" />
+        <result property="birth" column="birth" />     
+        <result property="phone" column="phone" />
+        <result property="creationDate" column="creationDate" />        
+	</resultMap> 
+	
+	
+	<!--민석-->
+   <insert id="register" >
+		<![CDATA[
+			 INSERT INTO userTBL
+    			(email, pwd, name, nickname, birth, phone)
+			 VALUES
+			    (#{email}, #{pwd}, #{name}, #{nickname}, #{birth}, #{phone})
+		]]>      
+   </insert>
+   
+   <select id ="duplicateID" resultType="int">
+	   <![CDATA[
+				 SELECT COUNT(*)
+				 from userTBL
+				 where email=#{email}
+			]]>      
+   </select>
+	
+	<select id ="duplicateNickname" resultType="int">
+	   <![CDATA[
+				 SELECT COUNT(*)
+				 from userTBL
+				 where nickname=#{nickname}
+			]]>      
+   </select>
+   
+   <select id="memberLogin"  resultMap="memResult">
+	<![CDATA[
+		select * from userTBL	
+		where email=#{email} and pwd=#{pwd}		
+	]]>
+  </select>
+  <select id="findEmail"  resultMap="memResult" >
+		<![CDATA[
+			select email 
+			from userTBL 
+			where name=#{name} and birth=#{birth} and phone=${phone}
+		]]>
+		
+  </select>
+	
+  <select id="findPwd"  resultMap="memResult">
+		<![CDATA[
+			select pwd 
+			from userTBL 
+			where email=#{email} and name=#{name} and phone=#{phone} and birth=#{birth} 
+		]]>
+  </select>
+   
+   
+  
+   
+	<!-- 
+
+	<select id="selectName" resultType="String">
+    <![CDATA[
+	select name from userTBL
+	where id = 'hong'			
+    ]]>
+	</select>
+	
+	<select id="selectPwd" resultType="int" >
+	  <![CDATA[ 
+	    select pwd from userTBL 
+	    where id = 'hong'
+	 ]]>
+	 </select> 
+	 
+	
+	<select id="selectMemberByPwd" resultMap="memResult"  parameterType="int" >
+      <![CDATA[
+         select * from userTBL
+         where
+         pwd = #{pwd}			
+      ]]>
+    </select>
+    
+	
+	<insert id="insertMember2"  parameterType="java.util.HashMap">
+		<![CDATA[
+			 insert into userTBL(id,pwd, name, email)
+			 values(#{id}, #{pwd}, #{name}, #{email})
+		]]>      
+   </insert>
+   
+   <update id="updateMember"  parameterType="memberVO">
+     <![CDATA[
+	     update userTBL
+	     set pwd=#{pwd}, name=#{name}, email=#{email}
+	     where
+	     id=#{id}
+      ]]>      
+   </update> 
+     
+   <delete id="deleteMember"  parameterType="String">
+	<![CDATA[
+	   delete from  userTBL
+	   where
+	   id=#{id}
+	]]>      
+  </delete>
+	
+	
+	동적 SQL문
+  <select id="searchMember" parameterType="memberVO" resultMap="memResult">
+      <![CDATA[
+          select * from userTBL
+      ]]>
+      <where>
+         <if test=" name != ''  and  name != null">
+            name=#{name}
+         </if>
+         <if test="email != ''  and email != null ">
+           and email = #{email}
+         </if>
+      </where>
+      order by joinDate desc
+  </select> -->
+  
+  
+   
+   
+ <!--  
+   <sql id="a">
+    <![CDATA[
+      select * from userTBL
+     ]]> 
+   </sql>  -->  
+  
+<!--    
+  <select id="searchMember" parameterType="memberVO" resultMap="memResult">
+	     <include refid="a" /> 
+	   <![CDATA[
+         select * from userTBL 
+      ]]>
+	  
+       <where>
+		  <choose>
+		      <when test="name != '' and name != null and  email != '' and email != null">
+			     name=#{name} and email=#{email}
+		      </when>
+		      <when test="name != '' and name != null">
+			     name = #{name}
+		      </when>
+		      <when test="email !='' and email != null">
+			    email = #{email}
+		      </when>
+	      </choose>
+       </where>
+       order by joinDate desc
+   </select> 
+  -->
+ <!--  
+   <select id="foreachSelect" resultMap="memResult" parameterType="java.util.Map">
+      <include refid="a" />
+      <![CDATA[
+        select * from userTBL 
+          
+      ]]>
+      
+      where name in
+      <foreach item="item" collection="list" open="(" separator="," close=")" >
+         #{item}
+      </foreach>
+      order by joinDate desc
+   </select>
+   
+   <insert id="foreachInsert"  parameterType="java.util.Map">
+      <foreach item="item"  collection="list"   open="INSERT ALL" separator=" " close="SELECT * FROM DUAL" >
+          INTO  userTBL(id, pwd, name, email)
+          VALUES  (#{item.id},
+                    #{item.pwd},
+                    #{item.name},
+                    #{item.email})
+      </foreach>
+   </insert>
+ -->  
+   <!--  like 검색 -->
+   <!--
+   <select id="selectLike" resultMap="memResult"  parameterType="String" >
+      <![CDATA[
+         select * from userTBL
+         where
+         name like '%' || #{name} || '%'		
+      ]]>
+    </select>
+     --> 
+</mapper>
